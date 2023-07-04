@@ -87,6 +87,8 @@ app.get('/search', (req, res) => {
 	const newString = removeStopwords(oldString);
 	newString.sort(); // newString is an array
 
+	console.log(newString);
+
 	let queryKeywords = [];
 
 	// Seperates numbers from query string
@@ -138,6 +140,7 @@ app.get('/search', (req, res) => {
 	// Grammer and Spell Check
 
 	let queryKeywordsNew = queryKeywords;
+	// console.log(queryKeywordsNew, 'queryKeywordsNew');
 	queryKeywords.forEach((key) => {
 		let key1 = key;
 		let key2 = lemmatizer.verb(key1); // adds -> add
@@ -195,8 +198,20 @@ app.get('/search', (req, res) => {
 	//Getting id of every query keyword
 	let qid = [];
 	queryKeywords.forEach((key) => {
-		qid.push(keywords.indexOf(key));
+		let id = -1;
+		for (let j = 0; j < keywords.length; j++) {
+			let kw = keywords[j].trim();
+			if (kw.includes(key)) {
+				id = j;
+				break;
+			}
+		}
+
+		if (id != -1) qid.push(id);
 	});
+
+	// console.log(qid);
+	// console.log(queryKeywords);
 
 	/**
 	 * BM25 Algorithm
