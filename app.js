@@ -87,7 +87,7 @@ app.get('/search', (req, res) => {
 	const newString = removeStopwords(oldString);
 	newString.sort(); // newString is an array
 
-	console.log(newString);
+	// console.log(newString);
 
 	let queryKeywords = [];
 
